@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup #Extracts the data
 import pandas as pd #stores data in csv or excel format
 import pickle
 
-
+# 
 def scraper():
 
     currentPage = 1
