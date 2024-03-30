@@ -52,15 +52,6 @@ df = pd.DataFrame(data)
 pd.options.display.max_colwidth = None
 
 
-def format_quote(quote, author, width=80):
-    #df.iterrows gives me the index and row data for each row in the dataframe. I'm looping through each index that has a row for quotes and author names. For each iteration, I'm taking the quote and the author, and then assining them into `format_quote`.
-
-    #So for example: In index 0, there's a row labeled 'Quote' and it reads "To be or not to be". Right next to it, there's another row labeled "Author" and it reads "Shakespeare". `format_quote` takes both rows and wraps the quote so it doesn't look messy, then it inserts the author's name right after. It keeps doing this for every quote-author pair in the dataframe.
-    wrapped_quote = textwrap.fill(quote, width=width)
-    wrapped_author = textwrap.fill(author, width=width)
-    return wrapped_quote + " - " + wrapped_author
-
-
 while True:
 
     print("\n")
@@ -79,19 +70,28 @@ while True:
     
     match menu:
         case "1":
-            for index, row in df.iterrows():
-                formatted_text = format_quote(row["Quote"], row["Author"])
-                print(formatted_text + "\n")
+             for index, row in df.iterrows():
+                quote = textwrap.fill(row["Quote"], width=80)
+                author = textwrap.fill(row["Author"], width=80)
+                print(quote + " - " + author + "\n")
         case "2": 
             df.to_excel("quotes.xlsx")
+            print("Succesfully stored data as a .xlsx file!")
+
         case "3":
             df.to_json("quotes.json")
+            print("Succesfully stored data as a .json file!")
+
         case "4":
-            with open("source.txt", "a", encoding='utf-8') as f:
-               
+             with open("source.txt", "a", encoding='utf-8') as f:
+                #df.iterrows has the index and row data for rach row in the dataframe. I am iterating through each index that has a row for quotes and author name.For each itereation I am prining the quote and author namee from the current index. 
+
+                #For example in index 0 you have a row called quote and it stores this quote  "To be or not to be". In the next row you have a row called "Author" and it contains the author's name "Shakespeare". Then both qoute and author gets printed and you move on to the next index and the same process as index 0 happens untill all qoutes and authors have been printed.
                 for index, row in df.iterrows():
-                    formatted_text = format_quote(row["Quote"], row["Author"])
-                    print(formatted_text + "\n", file=f)
+                    print(row["Quote"] + " - " + row["Author"], file=f)
+                    print("\n", file=f)
+                print("Succesfully stored data as a .txt file!")
+
         case "5":
             print("Exiting Menu...")
             break
